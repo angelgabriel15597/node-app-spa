@@ -12,6 +12,13 @@ const port = 3000
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
 
 const mongo_uri = 'mongodb+srv://AngelQR:angelgabriel15597@angelqr.ig7edln.mongodb.net/login';
 
@@ -28,7 +35,7 @@ app.post('/register', (req, res) => {
     const user = new User({ username, password });
     user.save(err => {
         if (err) {
-          
+
             res.status(500).send('ERROR AL REGISTRAR AL USUARIO')
         } else {
             res.status(200).send('USUARIO REGISTRADO')
@@ -38,7 +45,7 @@ app.post('/register', (req, res) => {
 });
 app.post('/authenticate', (req, res) => {
     const { username, password } = req.body;
-    User.findOne(({username}, (err, user) => {
+    User.findOne(({ username }, (err, user) => {
         if (err) {
             res.status(500).send('ERROR AL AUTENTICAR AL USUARIO')
         } else if (!user) {
