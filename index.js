@@ -45,22 +45,36 @@ app.post('/register', (req, res) => {
 });
 app.post('/authenticate', (req, res) => {
     const { username, password } = req.body;
-    User.findOne(({ username }, (err, user) => {
+    // console.log('USERNAME', username)
+    User.find(({ username, password }, (err, user) => {
+        console.log('USER', user)
+        const item = user.find((item) => item.username === username);
+        console.log(item)
         if (err) {
             res.status(500).send('ERROR AL AUTENTICAR AL USUARIO')
         } else if (!user) {
             res.status(200).send('USUARIO NO EXISTE')
 
         } else {
-            user.isCorrectPassword(password, (err, result) => {
-                if (err) {
-                    res.status(500).send('ERROR AL AUTENTICAR')
-                } else if (result) {
-                    res.status(200).send('USUARIO AUTENTICADO CORRECTAMENTE')
-                } else {
-                    res.status(500).send('USUARIO Y/O CONTRASEÑA INCORRECTA')
-                }
-            })
+            console.log('else')
+            let userFind;
+            if (item) {
+                userFind = item;
+                userFind.isCorrectPassword(password, (err, result) => {
+                    if (err) {
+                        res.status(500).send('ERROR AL AUTENTICAR')
+                    } else if (result) {
+
+                        res.status(200).send('USUARIO AUTENTICADO CORRECTAMENTE')
+                    } else {
+                        console.log('asdas', result)
+                        res.status(500).send('USUARIO Y/O CONTRASEÑA INCORRECTA')
+                    }
+                })
+            } else {
+                res.status(200).send('USUARIO NO EXISTE')
+            }
+
         }
     }))
 
