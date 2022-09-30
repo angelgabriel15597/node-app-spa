@@ -5,6 +5,7 @@ const app = express();
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const User = require('./public/user');
+const Sedes = require('./public/locales');
 
 const port = 3000
 
@@ -31,8 +32,8 @@ mongoose.connect(mongo_uri, function (err) {
 })
 
 app.post('/register', (req, res) => {
-    const { username, password } = req.body;
-    const user = new User({ username, password });
+    const { username, password, email } = req.body;
+    const user = new User({ username, password, email });
     user.save(err => {
         if (err) {
 
@@ -43,10 +44,22 @@ app.post('/register', (req, res) => {
         }
     })
 });
+
+app.post('/sedes', (req, res) => {
+    const { agencia, distrito, direccion, lat, lon } = req.body;
+    const sedes = new Sedes({ agencia, distrito, direccion, lat, lon });
+    sedes.save(err => {
+        if (err) {
+            res.status(500).send('ERROR AL REGISTRAR AL USUARIO')
+        } else {
+            res.status(200).send('USUARIO REGISTRADO')
+
+        }
+    })
+});
 app.post('/authenticate', (req, res) => {
     const { username, password } = req.body;
     User.findOne({ username }, (err, user) => {
-        console.log('USER', user)
         if (err) {
             res.status(500).send('ERROR AL AUTENTICAR AL USUARIO')
         } else if (!user) {
@@ -63,6 +76,18 @@ app.post('/authenticate', (req, res) => {
                     res.status(500).send('USUARIO Y/O CONTRASEÑA INCORRECTA')
                 }
             })
+        }
+    })
+
+});
+app.post('/listsedes', (req, res) => {
+    // const { username, password } = req.body;
+    Sedes.find({}, (err, sedes) => {
+        if (err) {
+            res.status(500).send('ERROR AL OBTENER LAS SEDES')
+        } else {
+            res.status(200).send(sedes)
+
         }
     })
 
