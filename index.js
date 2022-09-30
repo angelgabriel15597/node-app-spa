@@ -80,7 +80,7 @@ app.post('/authenticate', (req, res) => {
     })
 
 });
-app.post('/listsedes', (req, res) => {
+app.get('/listsedes', (req, res) => {
     // const { username, password } = req.body;
     Sedes.find({}, (err, sedes) => {
         if (err) {
