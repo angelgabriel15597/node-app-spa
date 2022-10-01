@@ -90,7 +90,7 @@ app.post('/authenticate', (req, res) => {
         if (err) {
             res.status(500).send('ERROR AL AUTENTICAR AL USUARIO')
         } else if (!user) {
-            res.status(200).send('USUARIO NO EXISTE')
+            res.status(500).send('USUARIO NO EXISTE')
 
         } else {
             user.isCorrectPassword(password, (err, result) => {
