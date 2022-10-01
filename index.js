@@ -22,7 +22,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-const mongo_uri = 'mongodb+srv://AngelQR:angelgabriel15597@angelqr.ig7edln.mongodb.net/login';
+const mongo_uri = 'mongodb+srv://AngelQR:angelgabriel15597@angelqr.ig7edln.mongodb.net/project';
 
 mongoose.connect(mongo_uri, function (err) {
     if (err) {
