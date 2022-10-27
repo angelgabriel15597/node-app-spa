@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const User = require('./public/user');
 const Sedes = require('./public/locales');
 const Citas = require('./public/citas');
+const Reservas = require('./public/reservas');
 
 const port = 3000
 
@@ -58,7 +59,23 @@ app.post('/sedes', (req, res) => {
         }
     })
 });
+app.post('/reservas', (req, res) => {
+    // fullname: { type: String, required: true },
+    // phone: { type: String, required: true },
+    // area: { type: String, required: true },
+    // hour: { type: String, required: true },
+    // date: { type: String, required: true },
+    const { fullname, phone, area, hour, date } = req.body;
+    const citas = new Reservas({ fullname, phone, area, hour, date });
+    citas.save(err => {
+        if (err) {
+            res.status(500).send('ERROR AL REGISTRAR LA CITA')
+        } else {
+            res.status(200).send('CITA REGISTRADA')
 
+        }
+    })
+});
 app.post('/saveDate', (req, res) => {
     const { agencia, distrito, direccion, fecha, username, servicio } = req.body;
     const citas = new Citas({ agencia, distrito, direccion, fecha, username, servicio });
@@ -74,7 +91,7 @@ app.post('/saveDate', (req, res) => {
 
 app.post('/getCitas', (req, res) => {
     const { username } = req.body;
-    Citas.find({username}, (err, citas) => {
+    Citas.find({ username }, (err, citas) => {
         if (err) {
             res.status(500).send('ERROR AL OBTENER LAS CITAS')
         } else {
