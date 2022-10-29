@@ -5,6 +5,7 @@ const app = express();
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const User = require('./public/user');
+const Admin = require('./public/admin');
 const Sedes = require('./public/locales');
 const Citas = require('./public/citas');
 const Reservas = require('./public/reservas');
@@ -37,6 +38,20 @@ app.post('/register', (req, res) => {
     const { username, password, email } = req.body;
     const user = new User({ username, password, email });
     user.save(err => {
+        if (err) {
+
+            res.status(500).send('ERROR AL REGISTRAR AL USUARIO')
+        } else {
+            res.status(200).send('USUARIO REGISTRADO')
+
+        }
+    })
+});
+
+app.post('/register-admin', (req, res) => {
+    const { username, password, email } = req.body;
+    const admin = new Admin({ username, password, email });
+    admin.save(err => {
         if (err) {
 
             res.status(500).send('ERROR AL REGISTRAR AL USUARIO')
@@ -97,6 +112,41 @@ app.post('/getCitas', (req, res) => {
         } else {
             res.status(200).send(citas)
 
+        }
+    })
+
+});
+
+app.post('/getCitasAll', (req, res) => {
+    Citas.find({}, (err, citas) => {
+        if (err) {
+            res.status(500).send('ERROR AL OBTENER LAS CITAS')
+        } else {
+            res.status(200).send(citas)
+
+        }
+    })
+
+});
+app.post('/authenticate-admin', (req, res) => {
+    const { username, password } = req.body;
+    Admin.findOne({ username }, (err, user) => {
+        if (err) {
+            res.status(500).send('ERROR AL AUTENTICAR AL USUARIO')
+        } else if (!user) {
+            res.status(500).send('USUARIO NO EXISTE')
+
+        } else {
+            user.isCorrectPassword(password, (err, result) => {
+                if (err) {
+                    res.status(500).send('ERROR AL AUTENTICAR')
+                } else if (result) {
+
+                    res.status(200).send('USUARIO AUTENTICADO CORRECTAMENTE')
+                } else {
+                    res.status(500).send('USUARIO Y/O CONTRASEÑA INCORRECTA')
+                }
+            })
         }
     })
 
