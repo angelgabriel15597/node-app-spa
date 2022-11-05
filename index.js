@@ -116,7 +116,30 @@ app.post('/getCitas', (req, res) => {
     })
 
 });
+app.post('/deleteCita', (req, res) => {
+    const { username, fecha } = req.body;
+    Citas.findOneAndDelete({ username, fecha }, (err, citas) => {
+        if (err) {
+            res.status(500).send('ERROR AL ELIMINAR LA CITAS')
+        } else {
+            res.status(200).send('CITA BORRADA')
 
+        }
+    })
+
+});
+app.post('/updateCita', (req, res) => {
+    const { agencia, distrito, direccion, fecha, username, servicio } = req.body;
+    Citas.updateOne({ agencia, distrito, direccion, fecha, username, servicio }, (err, citas) => {
+        if (err) {
+            res.status(500).send('ERROR AL ACTUALIZAR LA CITAS')
+        } else {
+            res.status(200).send('CITA ACTUALIZADA')
+
+        }
+    })
+
+});
 app.post('/getCitasAll', (req, res) => {
     Citas.find({}, (err, citas) => {
         if (err) {
