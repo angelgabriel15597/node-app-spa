@@ -67,12 +67,37 @@ app.post('/sedes', (req, res) => {
     const sedes = new Sedes({ agencia, distrito, direccion, lat, lon });
     sedes.save(err => {
         if (err) {
-            res.status(500).send('ERROR AL REGISTRAR AL USUARIO')
+            res.status(500).send('ERROR AL REGISTRAR LA SEDE')
         } else {
-            res.status(200).send('USUARIO REGISTRADO')
+            res.status(200).send('SEDE REGISTRADA')
 
         }
     })
+});
+
+app.post('/deletesede', (req, res) => {
+    const { _id, username, fecha } = req.body;
+    Sedes.findByIdAndDelete(_id, {}, (err, citas) => {
+        if (err) {
+            res.status(500).send('ERROR AL ELIMINAR LA SEDE')
+        } else {
+            res.status(200).send('SEDE BORRADA')
+
+        }
+    })
+
+});
+app.post('/updateSede', (req, res) => {
+    const { _id, agencia, distrito, direccion, lat, lon } = req.body;
+    Sedes.findByIdAndUpdate(_id, { agencia, distrito, direccion, lat, lon }, (err, citas) => {
+        if (err) {
+            res.status(500).send('ERROR AL ACTUALIZAR LA SEDE')
+        } else {
+            res.status(200).send('SEDE ACTUALIZADA')
+
+        }
+    })
+
 });
 app.post('/reservas', (req, res) => {
     // fullname: { type: String, required: true },
