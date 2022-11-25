@@ -129,8 +129,8 @@ app.post('/deleteCita', (req, res) => {
 
 });
 app.post('/updateCita', (req, res) => {
-    const { agencia, distrito, direccion, fecha, username, servicio } = req.body;
-    Citas.updateOne({ agencia, distrito, direccion, fecha, username, servicio }, (err, citas) => {
+    const { _id, agencia, distrito, direccion, fecha, username, servicio } = req.body;
+    Citas.findByIdAndUpdate(_id, { _id, agencia, distrito, direccion, fecha, username, servicio }, (err, citas) => {
         if (err) {
             res.status(500).send('ERROR AL ACTUALIZAR LA CITAS')
         } else {
