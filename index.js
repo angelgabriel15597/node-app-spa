@@ -117,8 +117,8 @@ app.post('/reservas', (req, res) => {
     })
 });
 app.post('/saveDate', (req, res) => {
-    const { agencia, distrito, direccion, fecha, username, servicio } = req.body;
-    const citas = new Citas({ agencia, distrito, direccion, fecha, username, servicio });
+    const { agencia, distrito, direccion, fecha, username, servicio, status } = req.body;
+    const citas = new Citas({ agencia, distrito, direccion, fecha, username, servicio, status });
     citas.save(err => {
         if (err) {
             res.status(500).send('ERROR AL REGISTRAR LA CITA')
@@ -154,8 +154,8 @@ app.post('/deleteCita', (req, res) => {
 
 });
 app.post('/updateCita', (req, res) => {
-    const { _id, agencia, distrito, direccion, fecha, username, servicio } = req.body;
-    Citas.findByIdAndUpdate(_id, { _id, agencia, distrito, direccion, fecha, username, servicio }, (err, citas) => {
+    const { _id, agencia, distrito, direccion, fecha, username, servicio, status } = req.body;
+    Citas.findByIdAndUpdate(_id, { _id, agencia, distrito, direccion, fecha, username, servicio, status }, (err, citas) => {
         if (err) {
             res.status(500).send('ERROR AL ACTUALIZAR LA CITAS')
         } else {

@@ -7,7 +7,8 @@ const CitasSchema = new mongoose.Schema({
     distrito: { type: String, required: true },
     direccion: { type: String, required: true },
     servicio: { type: String, required: true },
-    fecha: { type: String, required: true }
+    fecha: { type: String, required: true },
+    status: {type: String, required: true }
 });
 
 
