@@ -18,8 +18,8 @@ var transporter = nodemailer.createTransport({
   
     host: "smtp.gmail.com",
     auth: {
-        user: 'angelgabrielqr@hotmail.com',
-        pass: 'angelgabriel1551997'
+        user: '***********',
+        pass: '**********'
     }
 });
 
@@ -27,7 +27,7 @@ var mensaje = "Su cita fue reservada con exito. Para visualizar más detalle ing
 
 var mailOptions = (email) => {
     return {
-        from: 'angelgabrielqr@hotmail.com',
+        from: '******',
         to: email,
         subject: 'Cita reservada',
         text: mensaje
@@ -46,7 +46,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-const mongo_uri = 'mongodb+srv://AngelQR:angelgabriel15597@angelqr.ig7edln.mongodb.net/project';
+const mongo_uri = 'mongodb+srv://key';
 const emailSend = async(user) => {
     await transporter.sendMail(mailOptions(user.email), function (error, info) {
         if (error) {
