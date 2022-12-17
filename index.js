@@ -152,6 +152,7 @@ app.post('/saveDate', (req, res) => {
                         if (error) {
                             console.log(error);
                         } else {
+                            res.status(200).send(`EMAIL ENVIADO ${user.email}`)
                             console.log('Email enviado: ' + info.response);
                         }
                     });
