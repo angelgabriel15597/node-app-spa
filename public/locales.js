@@ -12,7 +12,6 @@ const SedesSchema = new mongoose.Schema({
 
 SedesSchema.pre('save', function (next) {
     next();
-
 });
 
 module.exports = mongoose.model('Sedes', SedesSchema);
