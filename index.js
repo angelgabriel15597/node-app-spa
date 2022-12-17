@@ -101,7 +101,6 @@ app.post('/deletesede', (req, res) => {
             res.status(500).send('ERROR AL ELIMINAR LA SEDE')
         } else {
             res.status(200).send('SEDE BORRADA')
-
         }
     })
 
