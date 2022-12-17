@@ -103,7 +103,6 @@ app.post('/deletesede', (req, res) => {
             res.status(200).send('SEDE BORRADA')
         }
     })
-
 });
 app.post('/updateSede', (req, res) => {
     const { _id, agencia, distrito, direccion, lat, lon } = req.body;
