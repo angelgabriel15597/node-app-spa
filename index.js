@@ -15,11 +15,12 @@ const port = 3000
 var transporter = nodemailer.createTransport({
     service: 'hotmail',
     port: 465,
+  
+    host: "smtp.gmail.com",
     auth: {
         user: 'angelgabrielqr@hotmail.com',
         pass: 'angelgabriel1551997'
-    },
-    secure: true
+    }
 });
 
 var mensaje = "Su cita fue reservada con exito. Para visualizar más detalle ingresar a la pagina web https://motivos-spa.netlify.app/";
@@ -103,8 +104,10 @@ app.post('/deletesede', (req, res) => {
             res.status(500).send('ERROR AL ELIMINAR LA SEDE')
         } else {
             res.status(200).send('SEDE BORRADA')
+
         }
     })
+
 });
 app.post('/updateSede', (req, res) => {
     const { _id, agencia, distrito, direccion, lat, lon } = req.body;
@@ -152,11 +155,8 @@ app.post('/saveDate', (req, res) => {
                 } else {
                     transporter.sendMail(mailOptions(user.email), function (error, info) {
                         if (error) {
-                            console.log('ERROR EMAIL',error);
-                            // res.status(500).send(`ERROR AL REGISTRAR ${error}`)
-
+                            console.log(error);
                         } else {
-                            // res.status(200).send(`CITA REGISTRADA Y EMAIL ENVIADO ${user.email}`)
                             console.log('Email enviado: ' + info.response);
                         }
                     });
