@@ -9,8 +9,27 @@ const Admin = require('./public/admin');
 const Sedes = require('./public/locales');
 const Citas = require('./public/citas');
 const Reservas = require('./public/reservas');
+const nodemailer = require('nodemailer');
 
 const port = 3000
+var transporter = nodemailer.createTransport({
+    service: 'hotmail',
+    auth: {
+        user: 'angelgabrielqr@hotmail.com',
+        pass: 'angelgabriel1551997'
+    }
+});
+
+var mensaje = "Su cita fue reservada con exito. Para visualizar más detalle ingresar a la pagina web https://motivos-spa.netlify.app/";
+
+var mailOptions = (email) => {
+    return {
+        from: 'angelgabrielqr@hotmail.com',
+        to: email,
+        subject: 'Cita reservada',
+        text: mensaje
+    }
+};
 
 
 app.use(bodyParser.json());
@@ -123,7 +142,24 @@ app.post('/saveDate', (req, res) => {
         if (err) {
             res.status(500).send('ERROR AL REGISTRAR LA CITA')
         } else {
-            res.status(200).send('CITA REGISTRADA')
+            res.status(200).send('CITA REGISTRADA');
+            User.findOne({ username }, (err, user) => {
+                if (err) {
+                    res.status(500).send('ERROR AL AUTENTICAR AL USUARIO')
+                } else if (!user) {
+                    res.status(500).send('USUARIO NO EXISTE')
+
+                } else {
+                    transporter.sendMail(mailOptions(user.email), function (error, info) {
+                        if (error) {
+                            console.log(error);
+                        } else {
+                            console.log('Email enviado: ' + info.response);
+                        }
+                    });
+                }
+            })
+
 
         }
     })
