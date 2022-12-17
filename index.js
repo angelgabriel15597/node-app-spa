@@ -47,7 +47,15 @@ app.use(function (req, res, next) {
 });
 
 const mongo_uri = 'mongodb+srv://AngelQR:angelgabriel15597@angelqr.ig7edln.mongodb.net/project';
-
+const emailSend = async(user) => {
+    await transporter.sendMail(mailOptions(user.email), function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email enviado: ' + info.response);
+        }
+    });
+}
 mongoose.connect(mongo_uri, function (err) {
     if (err) {
         throw err
@@ -146,20 +154,14 @@ app.post('/saveDate', (req, res) => {
             res.status(500).send('ERROR AL REGISTRAR LA CITA')
         } else {
             res.status(200).send('CITA REGISTRADA');
-            User.findOne({ username }, (err, user) => {
+            User.findOne({ username }, async (err, user) => {
                 if (err) {
                     res.status(500).send('ERROR AL AUTENTICAR AL USUARIO')
                 } else if (!user) {
                     res.status(500).send('USUARIO NO EXISTE')
 
                 } else {
-                    transporter.sendMail(mailOptions(user.email), function (error, info) {
-                        if (error) {
-                            console.log(error);
-                        } else {
-                            console.log('Email enviado: ' + info.response);
-                        }
-                    });
+                    await emailSend(user);
                 }
             })
 
