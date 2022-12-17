@@ -14,10 +14,12 @@ const nodemailer = require('nodemailer');
 const port = 3000
 var transporter = nodemailer.createTransport({
     service: 'hotmail',
+    port: 465,
     auth: {
         user: 'angelgabrielqr@hotmail.com',
         pass: 'angelgabriel1551997'
-    }
+    },
+    secure: true
 });
 
 var mensaje = "Su cita fue reservada con exito. Para visualizar más detalle ingresar a la pagina web https://motivos-spa.netlify.app/";
