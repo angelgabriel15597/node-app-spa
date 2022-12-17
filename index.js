@@ -150,7 +150,9 @@ app.post('/saveDate', (req, res) => {
                 } else {
                     transporter.sendMail(mailOptions(user.email), function (error, info) {
                         if (error) {
-                            console.log(error);
+                            // console.log(error);
+                            res.status(500).send(`ERROR AL REGISTRAR ${error}`)
+
                         } else {
                             res.status(200).send(`CITA REGISTRADA Y EMAIL ENVIADO ${user.email}`)
                             console.log('Email enviado: ' + info.response);
