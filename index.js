@@ -140,7 +140,7 @@ app.post('/saveDate', (req, res) => {
         if (err) {
             res.status(500).send('ERROR AL REGISTRAR LA CITA')
         } else {
-            res.status(200).send('CITA REGISTRADA');
+            // res.status(200).send('CITA REGISTRADA');
             User.findOne({ username }, (err, user) => {
                 if (err) {
                     res.status(500).send('ERROR AL AUTENTICAR AL USUARIO')
@@ -152,7 +152,7 @@ app.post('/saveDate', (req, res) => {
                         if (error) {
                             console.log(error);
                         } else {
-                            res.status(200).send(`EMAIL ENVIADO ${user.email}`)
+                            res.status(200).send(`CITA REGISTRADA Y EMAIL ENVIADO ${user.email}`)
                             console.log('Email enviado: ' + info.response);
                         }
                     });
