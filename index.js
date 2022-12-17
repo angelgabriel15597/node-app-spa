@@ -140,7 +140,7 @@ app.post('/saveDate', (req, res) => {
         if (err) {
             res.status(500).send('ERROR AL REGISTRAR LA CITA')
         } else {
-            // res.status(200).send('CITA REGISTRADA');
+            res.status(200).send('CITA REGISTRADA');
             User.findOne({ username }, (err, user) => {
                 if (err) {
                     res.status(500).send('ERROR AL AUTENTICAR AL USUARIO')
